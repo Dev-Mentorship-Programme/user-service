@@ -19,9 +19,12 @@ from src.schemas.user_preference import (
 from src.schemas.response import ResponseModel
 
 
-router = APIRouter(prefix="/settings", tags=["Settings"])
+router = APIRouter()
 
-def get_preference_service(db: AsyncSession = Depends(get_db_session)) -> PreferenceService:
+
+def get_preference_service(
+    db: AsyncSession = Depends(get_db_session),
+) -> PreferenceService:
     preference_repo = PreferenceRepository(db)
     return PreferenceService(preference_repo)
 
@@ -30,7 +33,7 @@ def get_preference_service(db: AsyncSession = Depends(get_db_session)) -> Prefer
     "/preferences",
     response_model=ResponseModel[UserPreferenceResponse],
     summary="Get User Preferences",
-    description="Retrieve the current user's general preferences including language, currency, timezone, and theme"
+    description="Retrieve the current user's general preferences including language, currency, timezone, and theme",
 )
 async def get_preferences(
     current_user: dict = Depends(get_current_user),

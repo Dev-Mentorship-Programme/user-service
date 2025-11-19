@@ -14,7 +14,7 @@ from src.schemas.auth import (
 )
 from src.schemas.response import ResponseModel
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter()
 
 
 def get_auth_service(

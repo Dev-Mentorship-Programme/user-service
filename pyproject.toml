@@ -56,4 +56,7 @@ dev = "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
 grpc = "python -m src.grpc.user_pref_server"
 grpc-example = "python examples/grpc_client_example.py"
 gen-proto = "python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. --pyi_out=. src/grpc/proto/server/user.proto"
+test = "pytest"
+test-unit = "pytest src/tests/ -m unit -v"
+test-integration = "pytest src/tests/ -m integration -v"
 

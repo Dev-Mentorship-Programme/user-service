@@ -5,7 +5,7 @@ from typing import Optional, List
 from uuid import UUID
 from datetime import datetime
 
-from src.models.users import (
+from src.models import (
     UserPreference,
     UserNotificationSetting,
     UserPrivacySetting,
