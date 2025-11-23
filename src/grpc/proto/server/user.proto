@@ -1,0 +1,117 @@
+syntax = "proto3";
+package user;
+
+// Messages
+message GetPreferenceRequest {
+  string user_id = 1;
+}
+
+message Preference {
+  string user_id = 1;
+  string language = 2;
+  string currency = 3;
+  string timezone = 4;
+  string theme = 5;
+}
+
+message UpdatePreferenceRequest {
+  string user_id = 1;
+  Preference preference = 2;
+}
+
+message PreferenceResponse {
+  Preference preference = 1;
+}
+
+// Notification
+message NotificationSetting {
+  string user_id = 1;
+  bool email_enabled = 2;
+  bool sms_enabled = 3;
+  bool push_enabled = 4;
+}
+
+message UpdateNotificationRequest {
+  string user_id = 1;
+  NotificationSetting notification = 2;
+}
+
+message NotificationResponse {
+  NotificationSetting notification = 1;
+}
+
+// Privacy
+message PrivacySetting {
+  string user_id = 1;
+  bool profile_visible = 2;
+  bool show_email = 3;
+  bool show_phone = 4;
+}
+
+message UpdatePrivacyRequest {
+  string user_id = 1;
+  PrivacySetting privacy = 2;
+}
+
+message PrivacyResponse {
+  PrivacySetting privacy = 1;
+}
+
+// Consent
+message Consent {
+  string id = 1;
+  string user_id = 2;
+  string consent_type = 3;
+  bool granted = 4;
+  string version = 5;
+  string ip_address = 6;
+  string user_agent = 7;
+  string granted_at = 8;
+  string revoked_at = 9;
+}
+
+message CreateConsentRequest {
+  string user_id = 1;
+  string consent_type = 2;
+  bool granted = 3;
+  string version = 4;
+  string ip_address = 5;
+  string user_agent = 6;
+}
+
+message CreateConsentResponse {
+  Consent consent = 1;
+}
+
+message GetConsentHistoryRequest {
+  string user_id = 1;
+}
+
+message GetConsentHistoryResponse {
+  repeated Consent consents = 1;
+}
+
+message GetLatestConsentRequest {
+  string user_id = 1;
+  string consent_type = 2;
+}
+
+message GetLatestConsentResponse {
+  Consent consent = 1;
+}
+
+// Service
+service UserPreferenceService {
+  rpc GetPreference(GetPreferenceRequest) returns (PreferenceResponse);
+  rpc UpdatePreference(UpdatePreferenceRequest) returns (PreferenceResponse);
+
+  rpc GetNotificationSetting(GetPreferenceRequest) returns (NotificationResponse);
+  rpc UpdateNotificationSetting(UpdateNotificationRequest) returns (NotificationResponse);
+
+  rpc GetPrivacySetting(GetPreferenceRequest) returns (PrivacyResponse);
+  rpc UpdatePrivacySetting(UpdatePrivacyRequest) returns (PrivacyResponse);
+
+  rpc CreateConsent(CreateConsentRequest) returns (CreateConsentResponse);
+  rpc GetConsentHistory(GetConsentHistoryRequest) returns (GetConsentHistoryResponse);
+  rpc GetLatestConsent(GetLatestConsentRequest) returns (GetLatestConsentResponse);
+}

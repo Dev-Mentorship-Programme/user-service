@@ -8,6 +8,8 @@ from src.config.cache import redis_manager
 from src.utils.logging import setup_logging
 from src.dependencies import start_up, shut_down
 from logging import getLogger
+from src.routes.root_route import api_router
+
 
 logger = getLogger(__name__)
 
@@ -21,11 +23,7 @@ async def lifespan(app: FastAPI):
     await shut_down()
 
 
-app = FastAPI(
-    title=settings.SERVICE_NAME,
-    debug=settings.DEBUG,
-    lifespan=lifespan
-)
+app = FastAPI(title=settings.SERVICE_NAME, debug=settings.DEBUG, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,3 +58,6 @@ async def root():
 async def health_check():
     """Health check endpoint."""
     return {"status": "healthy"}
+
+
+app.include_router(api_router, prefix="/api/v1") 

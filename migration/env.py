@@ -7,7 +7,16 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 import asyncio
 
 from alembic import context
-from src.models import Base
+
+# Import Base and all models so SQLAlchemy metadata is populated
+from src.models import (
+    Base,
+    User,
+    UserPreference,
+    UserNotificationSetting,
+    UserPrivacySetting,
+    UserConsent,
+)
 from src.config.settings import settings
 
 # this is the Alembic Config object, which provides
@@ -30,6 +39,7 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 config.set_main_option("sqlalchemy.url", settings.sqlalchemy_database_uri)
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -54,11 +64,13 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
+
 def do_run_migrations(connection: Connection) -> None:
     context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
         context.run_migrations()
+
 
 async def run_async_migrations() -> None:
     connectable = async_engine_from_config(
@@ -71,6 +83,7 @@ async def run_async_migrations() -> None:
         await connection.run_sync(do_run_migrations)
 
     await connectable.dispose()
+
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
